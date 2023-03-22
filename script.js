@@ -1,9 +1,11 @@
 //https://github.com/CodingWith-Adam/dino-game
+import Player from "./Player.js";
+import Score from "./Score.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-const GAME_WIDTH = 800;
+const GAME_WIDTH = 1000;
 const GAME_HEIGHT = 600;
 const PLAYER_WIDTH = 88;
 const PLAYER_HEIGHT = 80;
@@ -13,35 +15,34 @@ let scaleRatio = null;
 
 // Game objects
 let player = null;
+let score = null;
 
 function createSprites() {
     // 18:14 https://www.youtube.com/watch?v=ooru4pyEv1I
+    player = new Player(ctx, GAME_WIDTH, GAME_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT);
+    score = new Score(ctx, scaleRatio);
 }
 
 function setScreen() {
-    s
+    scaleRatio = 1;
+    canvas.width = GAME_WIDTH * scaleRatio;
+    canvas.height = GAME_HEIGHT * scaleRatio;
+    createSprites();
 }
+
+setScreen();
 
 function clearScreen() {
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function jump() {
-    player.classList.add("animate_player");
-    setTimeout(function(){
-        player.classList.remove("animate_player");
-    }, 3000);
-}
-
-
-window.onload = function() {
+function getScaleRatio() {
+    const screenHeight = Math.min(window.innerHeight, window.screen.height);
 
 }
 
-function updateScore() {
 
-}
 
 function gameLoop(currentTime) {
     // First time func called to get frame rate
@@ -54,6 +55,14 @@ function gameLoop(currentTime) {
     previousTime = currentTime;
 
     clearScreen();
+
+    // Update
+
+
+    // Draw
+    player.draw();
+    score.draw();
+
     requestAnimationFrame(gameLoop);
 }
 
