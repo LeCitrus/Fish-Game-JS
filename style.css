@@ -1,0 +1,92 @@
+/* https://blog.logrocket.com/build-a-game-with-html-css-javascript/ */
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    user-select: none;
+    touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+}
+
+h1{
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+    margin-top: 10px;
+}
+
+p{
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    color: black; 
+}
+
+#center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 80vh;
+}
+
+#game{
+    width: 900px;
+    height: 600px;
+    border: 2px solid black;
+    margin: auto;
+}
+
+#player{
+    background-color: red;
+    width: 20px;
+    height: 30px;
+    position: relative;
+    top: 570px;
+}
+
+#fish{
+    width: 20px;
+    height: 50px;
+    background-color: blue;
+    position: relative;
+    top: 0px;
+    left: 500px;
+    animation: move_left 3s infinite linear;
+}
+
+#score{
+    width: fit-content;
+    height: 0px;
+    font-size: 40px;
+    font-family: 'Courier New', Courier, monospace;
+    position: relative;
+    color: black; 
+}
+
+
+/* Animations */
+@keyframes move_left {
+    0%{left: 900px;}
+    100%{left: 0px;}
+}
+
+@keyframes jump {
+    0%{top: 570px;}
+    100%{top: 0px;}
+}
+
+.animate_player{
+    animation: jump 3s infinite linear;
+}
