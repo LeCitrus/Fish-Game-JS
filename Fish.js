@@ -11,7 +11,7 @@ export default class Fish {
         this.image = new Image();
         this.image.src = "images/player.png";
         this.x = gameWidth;
-        this.y = (Math.random() * gameHeight) - height;
+        this.y = (Math.random() * (gameHeight - height)) + height;
         this.speed = speed;
         this.points = points;
     }
