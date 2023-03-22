@@ -1,6 +1,7 @@
 //https://github.com/CodingWith-Adam/dino-game
 import Player from "./Player.js";
 import Score from "./Score.js";
+import Fish from "./Fish.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -16,11 +17,13 @@ let scaleRatio = null;
 // Game objects
 let player = null;
 let score = null;
+let bad_fish = null;
 
 function createSprites() {
     // 18:14 https://www.youtube.com/watch?v=ooru4pyEv1I
     player = new Player(ctx, GAME_WIDTH, GAME_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT);
     score = new Score(ctx, scaleRatio);
+    bad_fish = new Fish(ctx, GAME_WIDTH, GAME_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT, 2, -60);
 }
 
 function setScreen() {
@@ -57,11 +60,14 @@ function gameLoop(currentTime) {
     clearScreen();
 
     // Update
-
+    player.update();
+    bad_fish.update();
+    score.update(1);
 
     // Draw
     player.draw();
     score.draw();
+    bad_fish.draw();
 
     requestAnimationFrame(gameLoop);
 }

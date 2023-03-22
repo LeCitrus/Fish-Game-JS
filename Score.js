@@ -1,11 +1,15 @@
 export default class Score {
+    
     score = 0;
-
-
+    
     constructor(ctx, scaleRatio) {
         this.ctx = ctx;
         this.canvas = ctx.canvas;
         this.scaleRatio = scaleRatio;
+    }
+
+    update(score) {
+        this.score += 1;
     }
 
     draw() {
