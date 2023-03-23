@@ -1,21 +1,22 @@
 export default class Score {
-    constructor(ctx, scaleRatio, score, x, y) {
+    
+    time = 60;
+    
+    constructor(ctx, scaleRatio) {
         this.ctx = ctx;
-        this.x = x;
-        this.y = y;
-        this.score = score;
         this.canvas = ctx.canvas;
         this.scaleRatio = scaleRatio;
     }
 
-    update(score) {
-        this.score += score;
+    update() {
+        this.time -= 1;
     }
 
     draw() {
+        const x = 600;
         this.ctx.fillStyle = "black";
         const fontSize = 35;
         this.ctx.font = `${fontSize}px serif`;
-        this.ctx.fillText(this.score, this.x, this.y);
+        this.ctx.fillText(Math.floor(this.time / 60) + ":" + (this.time % 60).toString().padStart(2, 0), x, 110);
     }
 }

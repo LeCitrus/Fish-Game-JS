@@ -3,7 +3,7 @@ export default class Player {
     jumpPressed = false;
     jumpInProgress = false;
     JUMP_SPEED = 0.6;
-    GRAVITY = 0.08;
+    GRAVITY = 0.06;
 
     constructor(ctx, gameWidth, gameHeight, width, height) {
 
@@ -15,7 +15,7 @@ export default class Player {
         this.height = height;
         this.image = new Image();
         this.image.src = "images/player.png";
-        this.x = 0;
+        this.x = 5;
         this.y = this.gameHeight - this.height;
 
         // Keyboard input
@@ -41,14 +41,19 @@ export default class Player {
 
     update() {
         this.y += this.JUMP_SPEED;
-        if (this.y < this.gameHeight - this.height) {
+        if (this.y < this.gameHeight - this.height && this.y >= 120) {
             this.JUMP_SPEED += this.GRAVITY;
+        }
+        else if (this.y <= 120) {
+            this.JUMP_SPEED = 0;
+            this.y = 120;
         }
         else {
             this.JUMP_SPEED = 0;
+            this.y = this.gameHeight- this.height;
         }
         if (this.jumpPressed) {
-            this.JUMP_SPEED = -5;
+            this.JUMP_SPEED = -2;
         }
     }
         

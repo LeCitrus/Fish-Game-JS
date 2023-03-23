@@ -1,6 +1,6 @@
 export default class Fish {
 
-    constructor(ctx, gameWidth, gameHeight, width, height, speed, points) {
+    constructor(ctx, gameWidth, gameHeight, width, height, speed, points, image) {
 
         this.ctx = ctx;
         this.canvas = ctx.canvas;
@@ -9,9 +9,9 @@ export default class Fish {
         this.width = width;
         this.height = height;
         this.image = new Image();
-        this.image.src = "images/player.png";
+        this.image.src = image;
         this.x = gameWidth;
-        this.y = (Math.random() * gameHeight) - height;
+        this.y = (Math.random() * (gameHeight - height - 120)) + 120;
         this.speed = speed;
         this.points = points;
     }
