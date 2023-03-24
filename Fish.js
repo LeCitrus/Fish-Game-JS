@@ -16,8 +16,8 @@ export default class Fish {
         this.points = points;
     }
 
-    update() {
-        this.x -= this.speed;
+    update(frameTimeDelta) {
+        this.x -= this.speed * (frameTimeDelta / 10);
     }
         
 

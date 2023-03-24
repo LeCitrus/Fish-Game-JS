@@ -2,8 +2,8 @@ export default class Player {
 
     jumpPressed = false;
     jumpInProgress = false;
-    JUMP_SPEED = 0.6;
-    GRAVITY = 0.06;
+    JUMP_SPEED = 0.7;
+    GRAVITY = 0.08;
 
     constructor(ctx, gameWidth, gameHeight, width, height) {
 
@@ -39,8 +39,8 @@ export default class Player {
         }
     };
 
-    update() {
-        this.y += this.JUMP_SPEED;
+    update(frameTimeDelta) {
+        this.y += this.JUMP_SPEED * (frameTimeDelta / 10);
         if (this.y < this.gameHeight - this.height && this.y >= 120) {
             this.JUMP_SPEED += this.GRAVITY;
         }

@@ -4,27 +4,34 @@ import Score from "./Score.js";
 import Fish from "./Fish.js";
 import Time from "./Time.js";
 
+// Get canvas and contexts
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
+
+// Scoreboard UI
 const top_g = new Image();
 top_g.src = "images/top_g.png";
 
+// Game variables
 const GAME_WIDTH = 700;
 const GAME_HEIGHT = 600;
-const PLAYER_WIDTH = 31 * 3;
-const PLAYER_HEIGHT = 17 * 3;
-const SMALL_FISH_WIDTH = 18 * 3;
-const SMALL_FISH_HEIGHT = 9 * 3;
-const BIG_FISH_WIDTH = 29 * 3;
-const BIG_FISH_HEIGHT = 14 * 3;
-const BAD_FISH_WIDTH = 51 * 3;
-const BAD_FISH_HEIGHT = 25 * 3;
+const PLAYER_WIDTH = 93;
+const PLAYER_HEIGHT = 51;
+const SMALL_FISH_WIDTH = 54;
+const SMALL_FISH_HEIGHT = 27;
+const BIG_FISH_WIDTH = 87;
+const BIG_FISH_HEIGHT = 42;
+const BAD_FISH_WIDTH = 153;
+const BAD_FISH_HEIGHT = 75;
+const SECOND = 1000;
+const POP_SCORE_DURATION = 700;
 
+// Function variables
 let previousTime = null;
 let scaleRatio = null;
-let second = 1000;
 let pop_score_duration = null;
 let game_over = false;
+let secondTimer = 1000;
 
 // Game objects
 let player = null;
@@ -37,7 +44,6 @@ let popup_score = null;
 let fishes = [];
 
 function createSprites() {
-    // 18:14 https://www.youtube.com/watch?v=ooru4pyEv1I
     player = new Player(ctx, GAME_WIDTH, GAME_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT);
     score = new Score(ctx, scaleRatio, 0, 270, 110);
     time = new Time(ctx, scaleRatio);
@@ -66,6 +72,7 @@ function getScaleRatio() {
 
 }
 
+// Check collision between any 2 objects
 function collides(a, b)
 {
     if (a.x < b.x + b.width &&
@@ -81,35 +88,39 @@ function gameLoop(currentTime) {
         requestAnimationFrame(gameLoop);
         return;
     }
-    
-    const frameTimeDelta = currentTime - previousTime;
-    previousTime = currentTime;
-    second -= frameTimeDelta;
-    if (second <= 0) {
-        second = 1000;
-        time.update();
-        if (time.time <= 0) {
-            game_over = true;
-        }
-    }
-
     clearScreen();
 
     if (!game_over) {
+        const frameTimeDelta = currentTime - previousTime;
+        previousTime = currentTime;
+        secondTimer -= frameTimeDelta;
+        if (secondTimer <= 0) {
+            secondTimer = SECOND;
+            time.time -= 1;
+            if (time.time <= 0) {
+                game_over = true;
+            }
+        }
+
         // Update
-        player.update();
-        bad_fish.update();
-        small_fish.update();
-        big_fish.update();
+        player.update(frameTimeDelta);
+        bad_fish.update(frameTimeDelta);
+        small_fish.update(frameTimeDelta);
+        big_fish.update(frameTimeDelta);
+
         fishes.forEach(fish => {
+
+            // Check for collisions between fishes and player
             if (collides(player, fish) && player.x + (player.width / 2) < fish.x) {
                 score.update(fish.points);
                 fish.x = GAME_WIDTH;
                 fish.y = Math.random() * (GAME_HEIGHT - fish.height - 120) + 120;
                 popup_score = new Score(ctx, scaleRatio, fish.points, player.x + 60, player.y);
-                pop_score_duration = 700;
+                pop_score_duration = POP_SCORE_DURATION;
                 
             }
+            
+            // Check if fish has hit wall
             if (fish.x < 0) {
                 fish.x = GAME_WIDTH;
                 fish.y = Math.random() * (GAME_HEIGHT - fish.height - 120) + 120;
@@ -126,11 +137,10 @@ function gameLoop(currentTime) {
             popup_score.draw();
             pop_score_duration -= frameTimeDelta;
         }
-
         time.draw();
-        
         ctx.drawImage(top_g, 20, 0, 650, 120);
     }
+
     else {
         ctx.fillStyle = "black";
         ctx.font = "30px serif";

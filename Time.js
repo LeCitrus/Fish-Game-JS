@@ -8,10 +8,6 @@ export default class Score {
         this.scaleRatio = scaleRatio;
     }
 
-    update() {
-        this.time -= 1;
-    }
-
     draw() {
         const x = 600;
         this.ctx.fillStyle = "black";
