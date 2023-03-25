@@ -42,15 +42,17 @@ export default class Player {
     update(frameTimeDelta) {
         this.y += this.JUMP_SPEED * (frameTimeDelta / 10);
         if (this.y < this.gameHeight - this.height && this.y >= 120) {
-            this.JUMP_SPEED += this.GRAVITY;
+            this.JUMP_SPEED += this.GRAVITY * (frameTimeDelta / 10);
         }
+        // Hit top
         else if (this.y <= 120) {
             this.JUMP_SPEED = 0;
             this.y = 120;
         }
+        // Hit bottom
         else {
             this.JUMP_SPEED = 0;
-            this.y = this.gameHeight- this.height;
+            this.y = this.gameHeight - this.height;
         }
         if (this.jumpPressed) {
             this.JUMP_SPEED = -2;
