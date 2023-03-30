@@ -31,6 +31,7 @@ let previousTime = null;
 let scaleRatio = null;
 let pop_score_duration = null;
 let game_over = false;
+let main_menu = true;
 let secondTimer = 1000;
 
 // Game objects
@@ -51,6 +52,13 @@ function createSprites() {
     small_fish = new Fish(ctx, GAME_WIDTH, GAME_HEIGHT, SMALL_FISH_WIDTH, SMALL_FISH_HEIGHT, 0.6, 30, "images/small_fish.png");
     big_fish = new Fish(ctx, GAME_WIDTH, GAME_HEIGHT, BIG_FISH_WIDTH, BIG_FISH_HEIGHT, 0.5, 60, "images/big_fish.png");
     fishes = [bad_fish, small_fish, big_fish];
+}
+
+function resetSprites() {
+    player.y = GAME_HEIGHT - PLAYER_HEIGHT;
+    bad_fish.reset();
+    small_fish.reset();
+    big_fish.reset();
 }
 
 function setScreen() {
@@ -81,6 +89,22 @@ function collides(a, b)
         a.y + a.height > b.y) return true;
 }
 
+function start() {
+    game_over = false
+    // Start game
+    if (time.time > 0) {
+        main_menu = false;
+    }
+    // Restart game
+    else {
+        main_menu = true;
+        time.reset();
+        score.reset();
+        resetSprites();
+    }
+
+}
+
 function gameLoop(currentTime) {
     // First time func called to get frame rate
     if(previousTime === null) {
@@ -89,8 +113,13 @@ function gameLoop(currentTime) {
         return;
     }
     clearScreen();
+    if (main_menu) {
+        ctx.fillStyle = "black";
+        ctx.font = "30px serif";
+        ctx.fillText("Any key to Start", 300, 300);
+    }
 
-    if (!game_over) {
+    else if (!game_over) {
         const frameTimeDelta = currentTime - previousTime;
         previousTime = currentTime;
         secondTimer -= frameTimeDelta;
@@ -145,11 +174,12 @@ function gameLoop(currentTime) {
         ctx.fillStyle = "black";
         ctx.font = "30px serif";
         ctx.fillText("Game Over", 300, 300);
+        ctx.fillText("Score: " + score.score, 300, 400);
+        ctx.fillText("Any key to Restart", 300, 500);
     }
 
     requestAnimationFrame(gameLoop);
 }
 
 requestAnimationFrame(gameLoop);
-
-
+window.addEventListener("keydown", start);

@@ -12,6 +12,10 @@ export default class Score {
         this.score += score;
     }
 
+    reset(){
+        this.score = 0;
+    }
+
     draw() {
         this.ctx.fillStyle = "black";
         const fontSize = 35;

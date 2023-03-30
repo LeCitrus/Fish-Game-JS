@@ -16,6 +16,11 @@ export default class Fish {
         this.points = points;
     }
 
+    reset() {
+        this.x = this.gameWidth;
+        this.y = (Math.random() * (this.gameHeight - this.height - 120)) + 120;
+    }
+
     update(frameTimeDelta) {
         this.x -= this.speed * (frameTimeDelta / 10);
     }
